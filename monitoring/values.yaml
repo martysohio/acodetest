@@ -1,0 +1,19 @@
+grafana:
+  defaultDashboardsEnabled: true
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+
+additionalPrometheusRulesMap:
+  argocd:
+    groups:
+      - name: argocd.rules
+        rules:
+          - alert: ArgoCDAppOutOfSync
+            expr: argocd_app_info{sync_status!="Synced"} > 0
+            for: 10m
+
+          - alert: ArgoCDAppDegraded
+            expr: argocd_app_info{health_status="Degraded"} > 0
+            for: 5m
