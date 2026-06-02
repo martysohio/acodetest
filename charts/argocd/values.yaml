@@ -1,4 +1,7 @@
 # Enable metrics for the Application Controller (Port 8082)
+metrics:
+  # -- Deploy metrics service
+  enabled: true
 controller:
   metrics:
     enabled: true
