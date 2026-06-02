@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/company/gitops.git
+    repoURL: https://github.com/martysohio/acodetest.git
     targetRevision: main
     path: charts/monitoring
 
