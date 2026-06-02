@@ -7,13 +7,9 @@ spec:
   project: default
 
   source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
-    targetRevision: 62.0.0
-
-    helm:
-      valueFiles:
-        - values.yaml
+    repoURL: https://github.com/company/gitops.git
+    targetRevision: main
+    path: charts/monitoring
 
   destination:
     server: https://kubernetes.default.svc

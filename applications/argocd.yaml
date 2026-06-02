@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/martysohio/acodetest.git
     targetRevision: main
-    path: applications
+    path: charts/argocd
 
   destination:
     server: https://kubernetes.default.svc
