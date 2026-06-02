@@ -1,7 +1,8 @@
 # acodetest
+
 thing for people
 
-## goals
+# goals
 
 Deploy Argo CD and prepare a GitOps repo that makes Argo CD do the following:
 1. Manage its own configurations/lifecycle
@@ -11,35 +12,36 @@ dashboards and alerts)
 4. Ensure you set a sync wave with a value of -10 on the app-of-apps
 Share the git repo with us, and be prepared to discuss what you did and how it works
 
-## k8s setup
+## assumptions
 
-* Minikube - test done with 1.26, newer versions should work, but unknown. On WSL 2 Ubuntu 22.04.5 LTS
+* helm is installed
+* argocd cli is installed
+* latest minikube is installed
 
+## setup steps
 
-
-## Setup steps
-
-1. Initial install of ArgoCD, can do this per Argo's own docs 
-https://argo-cd.readthedocs.io/en/stable/getting_started/ and set the context while you are at it.
-```
-kubectl create namespace argocd
-kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-kubectl config set-context --current --namespace=argocd
-```
-
-2. Install ArgoCD cli locally, I used curl/Linux install, others are at https://argo-cd.readthedocs.io/en/stable/cli_installation/
-```
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64
-```
-
-3. Reset/retrieve initial password (again same as ArgoCD getting started docs)
-```
-argocd admin initial-password -n argocd
-```
-
-4. Log into the ArgoCD UI, you will need to forward the port if using local/minikube.  
-```
-kubectl port-forward svc/argocd-server -n argocd 8080:443
-```
+1. Start minikube
+   ```
+   minikube start
+   ```
+2. Add helm repo (assumes helm is installed) from https://github.com/argoproj/argo-helm
+   ```
+   helm repo add argo https://argoproj.github.io/argo-helm
+   helm install argocd argo/argo-cd -n argocd --create-namespace
+   ```
+3. Wait a bit, you should see the Argo pods
+4. Per helm output, you can forward the port then visit localhost:8080 to get the ArgoCD login
+    ```
+    kubectl port-forward service/argocd-server -n argocd 8080:443
+    ```
+5. Grab initial password from CLI or secret
+    ```
+    argocd admin initial-password -n argocd
+    ```
+6. Log into the ArgoCD UI, you will see zero apps
+7. Apply the app of apps yaml from root of this git repo
+    ```
+    kubectl apply -f bootstrap/app-of-apps.yaml
+    ```
+    You will see a new app appear in ArgoCD
+   
