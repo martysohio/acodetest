@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/martysohio/acodetest.yaml
     targetRevision: main
-    path: argocd
+    path: applications
 
   destination:
     server: https://kubernetes.default.svc
