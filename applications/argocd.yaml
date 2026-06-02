@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/martysohio/acodetest.yaml
+    repoURL: https://github.com/martysohio/acodetest.git
     targetRevision: main
     path: applications
 

@@ -43,5 +43,5 @@ Share the git repo with us, and be prepared to discuss what you did and how it w
     ```
     kubectl apply -f bootstrap/app-of-apps.yaml
     ```
-    You will see a new app appear in ArgoCD
+    You will see a new app appear in ArgoCD, if done correctly you will see the app of apps and the argocd app connected/blow it.
    
