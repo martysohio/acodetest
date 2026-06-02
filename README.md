@@ -44,4 +44,17 @@ Share the git repo with us, and be prepared to discuss what you did and how it w
     kubectl apply -f bootstrap/app-of-apps.yaml
     ```
     You will see a new app appear in ArgoCD, if done correctly you will see the app of apps and the argocd app connected/blow it.
+8. After some time, you should see the app of apps, argocd, and monitoring apps up and green.
+
+## check monitoring
    
+Stuff is running, now lets verify 
+
+## troubleshooting
+
+
+## random notes
+
+using helm only I apparently found this bug that breaks repo server if you use wrong versions, in addition to setting the annotation limit (which is in starter guide anyway)
+
+https://github.com/argoproj/argo-cd/issues/26595
