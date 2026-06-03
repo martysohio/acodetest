@@ -1,5 +1,10 @@
 # monitoring/kube-prometheus-stack/values.yaml
 kube-prometheus-stack:
+  grafana:
+    sidecar:
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
   # Prometheus configuration
   prometheus:
     prometheusSpec:
