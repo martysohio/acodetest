@@ -6,4 +6,4 @@ metadata:
     grafana_dashboard: "1"
 data:
   argocd-overview.json: |
-{{ .Files.Get "dashboards/argocd-overview.json" | indent 4 }}
+{{ .Files.Get "dashboards/argocd.json" | indent 4 }}
