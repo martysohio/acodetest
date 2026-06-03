@@ -1,26 +1,39 @@
-# acodetest
+# TOC
 
 thing for people
 
-# goals
+- [TOC](#toc)
+- [Goals](#goals)
+- [Assumptions](#assumptions)
+- [Setup steps](#setup-steps)
+  - [Quick portforward copy paste](#quick-portforward-copy-paste)
+- [Requirements](#requirements)
+  - [Requirement 1 ArgoCD managing its own lifecycle](#requirement-1-argocd-managing-its-own-lifecycle)
+  - [Requirement 2 Prometheus works with ArgoCD metrics and has an alert, plus Grafana](#requirement-2-prometheus-works-with-argocd-metrics-and-has-an-alert-plus-grafana)
+  - [Requirement 3 Helm binary changed/updated in repo-server pod](#requirement-3-helm-binary-changedupdated-in-repo-server-pod)
+- [Troubleshooting](#troubleshooting)
+- [Random notes](#random-notes)
 
-Deploy Argo CD and prepare a GitOps repo that makes Argo CD do the following:
-1. Manage its own configurations/lifecycle
-2. Deploy Prometheus and any required configurations to make it monitor Argo CD (with
-dashboards and alerts)
-3. Replace the Helm binary included with Argo CD with a different version of Helmand specifically use Helm version 3.7
-4. Ensure you set a sync wave with a value of -10 on the app-of-apps
-Share the git repo with us, and be prepared to discuss what you did and how it works
 
-## assumptions
+
+# Goals
+
+Deploy Argo CD and prepare a GitOps repo that makes Argo CD do the following: 
+1. Manage its own configurations/lifecycle 
+2. Deploy Prometheus and any required configurations to make it monitor Argo CD (with 
+dashboards and alerts) 
+3. Replace the Helm binary included with Argo CD with a different version of Helm
+
+# Assumptions
 
 * helm is installed
 * argocd cli is installed
 * latest minikube is installed
+* helm is installed (3.x )
 * security is an afterthought
-* mvp is the goal, not the most elegant solution
+* mvp is the goal, not the most elegant solution, or even best practices
 
-## setup steps
+# Setup steps
 
 1. Start minikube
    ```
@@ -31,7 +44,7 @@ Share the git repo with us, and be prepared to discuss what you did and how it w
    helm repo add argo https://argoproj.github.io/argo-helm
    helm install argocd argo/argo-cd -n argocd --create-namespace
    ```
-3. Wait a bit, you should see the Argo pods
+3. Wait a bit, you should see the Argo pods. Proceed once they are all *Running*.
 4. Per helm output, you can forward the port then visit localhost:8080 to get the ArgoCD login
     ```
     kubectl port-forward service/argocd-server -n argocd 8080:443
@@ -48,11 +61,27 @@ Share the git repo with us, and be prepared to discuss what you did and how it w
     You will see a new app appear in ArgoCD, if done correctly you will see the app of apps and the argocd app connected/blow it.
 8. After some time, you should see the app of apps, argocd, and monitoring apps up and green.
 
-## check monitoring
-   
-Stuff is running, now lets verify.
+Now 
 
-### ArgoCD managing its own lifecycle 
+## Quick portforward copy paste
+
+
+```
+kubectl port-forward service/argocd-server -n argocd 8080:443&
+kubectl port-forward svc/monitoring-grafana -n monitoring 8081:80&
+kubectl port-forward svc/prometheus-operated -n monitoring  9090&
+```
+
+**Quick Links**
+
+ArgoCD https://localhost:8080/
+Grafana http://localhost:8081/
+Prometheus http://localhost:9090/
+
+
+# Requirements 
+
+## Requirement 1 ArgoCD managing its own lifecycle 
 
 Metric services are not enabled by default, we know its being managed because the metric services appear. Which means the Helm chart with values was used.
 
@@ -75,7 +104,7 @@ argocd-server-metrics                      ClusterIP   10.99.228.33     <none>  
 
 ```
 
-### Prometheus works with ArgoCD metrics and has an alert, plus Grafana
+## Requirement 2 Prometheus works with ArgoCD metrics and has an alert, plus Grafana
 
 Prometheus UI can be viewed with a port forward
 
@@ -85,7 +114,7 @@ Then visit http://localhost:9090 and take a look, queries for argocd metrics lik
 
 For grafana, forward a port as you please, such as 
 
-kubectl port-forward svc/monitoring-grafana   -n monitoring   8081:80
+kubectl port-forward svc/monitoring-grafana -n monitoring 8081:80
 
 Then visit http://localhost:8081/ , the default user is admin, the password is in a secret. Retrieve it via:
 
@@ -95,12 +124,29 @@ kubectl get secret monitoring-grafana -o jsonpath="{.data.admin-password}" -n mo
 
 An ArgoCD dashboard can be found with working metrics/data.
 
-### Helm binary changed/updated in repo-server pod
+## Requirement 3 Helm binary changed/updated in repo-server pod
 
-## troubleshooting
+Default for the ArgoCD repo server container here is:
 
+```
+kubectl exec -n argocd deploy/argocd-repo-server -- helm version
+Defaulted container "repo-server" out of: repo-server, copyutil (init)
+version.BuildInfo{Version:"v3.19.4", GitCommit:"7cfb6e486dac026202556836bb910c37d847793e", GitTreeState:"clean", GoVersion:"go1.24.11"}
+```
 
-## random notes
+But by adding an init container to get a new version and mount it, we can update it without having to use a custom image + docker registry. On initial launch you will get this version. 
+
+```
+kubectl exec -n argocd deploy/argocd-repo-server -- helm version
+Defaulted container "repo-server" out of: repo-server, copyutil (init), download-helm (init)
+version.BuildInfo{Version:"v3.20.2", GitCommit:"8fb76d6ab555577e98e23b7500009537a471feee", GitTreeState:"clean", GoVersion:"go1.25.9"}
+```
+
+# Troubleshooting
+
+If you match
+
+# Random notes
 
 Using helm only I apparently found this bug that breaks repo server if you use wrong versions, in addition to setting the annotation limit (which is in starter guide anyway)
 
