@@ -1,6 +1,6 @@
 # TOC
 
-thing for people
+ArgoCD 24 hour bootcamp
 
 - [TOC](#toc)
 - [Goals](#goals)
@@ -148,16 +148,15 @@ If you match my versions of everything is should work with minikube. To me that 
 
 Versions used:
 
+WSL2 / Ubuntu 22.04.5 LTS
 * helm 3.8.2
 * argocd cli 3.4.3
 * minikube 1.38.1
 * k8s 1.35.1
 
-
-
 # Random notes
 
-I have not used ArgoCD prior to this, and had lots of help combing through docs, examples, and AI tooling.  I have left the commit history in place if you want to review it, though there are no useful git commit messages. I considered flattening it but the thought process is more fun. 
+I have not used ArgoCD prior to this, and had lots of help combing through docs, examples, and AI tooling.  I have left the commit history in place if you want to review it, though there are no useful git commit messages. I considered flattening it but the thought process is more fun. Hopefully everything works as expected. 
 
 
 
