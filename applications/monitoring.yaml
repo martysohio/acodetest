@@ -10,6 +10,9 @@ spec:
     repoURL: https://github.com/martysohio/acodetest.git
     targetRevision: main
     path: charts/monitoring
+    helm:
+      valueFiles:
+      - values.yml  
 
   destination:
     server: https://kubernetes.default.svc
