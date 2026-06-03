@@ -10,7 +10,9 @@ spec:
     repoURL: https://github.com/martysohio/acodetest.git
     targetRevision: main
     path: charts/argocd
-
+    helm:
+      valueFiles:
+      - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd

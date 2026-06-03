@@ -54,7 +54,7 @@ Stuff is running, now lets verify.
 
 ### ArgoCD managing its own lifecycle 
 
-Metric services are not enabled by default, we know its being managed because those services appear in the output from
+Metric services are not enabled by default, we know its being managed because the metric services appear. Which means the Helm chart with values was used.
 
 *kubectl get svc -n argocd*
 
@@ -92,6 +92,8 @@ Then visit http://localhost:8081/ , the default user is admin, the password is i
 ```
 kubectl get secret monitoring-grafana -o jsonpath="{.data.admin-password}" -n monitoring | base64 --decode ; echo
 ```
+
+An ArgoCD dashboard can be found with working metrics/data.
 
 ### Helm binary changed/updated in repo-server pod
 
