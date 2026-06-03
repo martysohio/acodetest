@@ -1,11 +1,9 @@
+# monitoring/kube-prometheus-stack/values.yaml
 kube-prometheus-stack:
+  # Prometheus configuration
   prometheus:
     prometheusSpec:
-      serviceMonitorSelector: {}
-      serviceMonitorNamespaceSelector: {}
-
-      podMonitorSelector: {}
-      podMonitorNamespaceSelector: {}
-
-      probeSelector: {}
-      probeNamespaceSelector: {}
+      # Scrape all ServiceMonitors across namespaces
+      serviceMonitorSelectorNilUsesHelmValues: false
+      podMonitorSelectorNilUsesHelmValues: false
+      ruleSelectorNilUsesHelmValues: false
