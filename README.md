@@ -157,7 +157,7 @@ Versions used:
 
 # Random notes
 
-
+I have not used ArgoCD prior to this, and had lots of help combing through docs, examples, and AI tooling.  I have left the commit history in place if you want to review it, though there are no useful git commit messages. I considered flattening it but the thought process is more fun. 
 
 
 
