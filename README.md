@@ -144,10 +144,21 @@ version.BuildInfo{Version:"v3.20.2", GitCommit:"8fb76d6ab555577e98e23b7500009537
 
 # Troubleshooting
 
-If you match
+If you match my versions of everything is should work with minikube. To me that is the most likely source of issues is using different systems entirely. However, this project seems simple enough it should work in most k8s clusters.  Not accounting for any network restrictions.
+
+Versions used:
+
+* helm 3.8.2
+* argocd cli 3.4.3
+* minikube 1.38.1
+* k8s 1.35.1
+
+
 
 # Random notes
 
-Using helm only I apparently found this bug that breaks repo server if you use wrong versions, in addition to setting the annotation limit (which is in starter guide anyway)
 
-https://github.com/argoproj/argo-cd/issues/26595
+
+
+
+
