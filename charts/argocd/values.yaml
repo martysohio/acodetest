@@ -12,6 +12,28 @@ argo-cd:
         enabled: true
 
   repoServer:
+    volumes:
+      - name: custom-tools
+        emptyDir: {}
+
+    initContainers:
+      - name: download-helm
+        image: alpine:3.20
+        command: [sh, -c]
+        args:
+          - |
+            wget -qO- https://get.helm.sh/helm-v3.20.2-linux-amd64.tar.gz \
+            | tar -xz
+            cp linux-amd64/helm /custom-tools/helm
+            chmod +x /custom-tools/helm
+        volumeMounts:
+          - name: custom-tools
+            mountPath: /custom-tools
+
+    volumeMounts:
+      - name: custom-tools
+        mountPath: /usr/local/bin/helm
+        subPath: helm
     metrics:
       enabled: true
       serviceMonitor:
@@ -28,3 +50,4 @@ argo-cd:
       enabled: true
       serviceMonitor:
         enabled: true
+
