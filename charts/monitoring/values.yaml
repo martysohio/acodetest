@@ -1,0 +1,11 @@
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelector: {}
+      serviceMonitorNamespaceSelector: {}
+
+      podMonitorSelector: {}
+      podMonitorNamespaceSelector: {}
+
+      probeSelector: {}
+      probeNamespaceSelector: {}
