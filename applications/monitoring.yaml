@@ -12,7 +12,7 @@ spec:
     path: charts/monitoring
     helm:
       valueFiles:
-      - values.yml  
+      - values.ysml
 
   destination:
     server: https://kubernetes.default.svc
