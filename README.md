@@ -11,6 +11,7 @@ ArgoCD 24 hour bootcamp
   - [Requirement 1 ArgoCD managing its own lifecycle](#requirement-1-argocd-managing-its-own-lifecycle)
   - [Requirement 2 Prometheus works with ArgoCD metrics and has an alert, plus Grafana](#requirement-2-prometheus-works-with-argocd-metrics-and-has-an-alert-plus-grafana)
   - [Requirement 3 Helm binary changed/updated in repo-server pod](#requirement-3-helm-binary-changedupdated-in-repo-server-pod)
+- [Testing yourself](#testing-yourself)
 - [Troubleshooting](#troubleshooting)
 - [Random notes](#random-notes)
 
@@ -141,6 +142,10 @@ kubectl exec -n argocd deploy/argocd-repo-server -- helm version
 Defaulted container "repo-server" out of: repo-server, copyutil (init), download-helm (init)
 version.BuildInfo{Version:"v3.20.2", GitCommit:"8fb76d6ab555577e98e23b7500009537a471feee", GitTreeState:"clean", GoVersion:"go1.25.9"}
 ```
+
+# Testing yourself
+
+Removing the values.yaml files from argocd/monitoring directories is a simple way to see updates if you put this in your own repo somewhere.  Removing them should delete the metrics services, the custom dashboard in Grafana, and metrics themselves from Prometheus.
 
 # Troubleshooting
 
